@@ -1,15 +1,18 @@
 # Auth flow
 ```mermaid
   sequenceDiagram
-    actor Customer
-    Customer->>+Merchant: Card Info
-    Merchant->>+Gateway: Auth
-    Gateway->>+Acquirer: Auth
-    Acquirer->>+Card Association: Auth
-    Card Association->>+Issuer: Auth
-    Issuer->>-Card Association: Success(Auth code)
-    Card Association->>-Acquirer: Auth code
-    Acquirer->>-Gateway: Auth code
-    Gateway->>-Merchant: Auth code
-    Merchant->>-Customer: Auth success
+    actor Cardholder
+    Cardholder->>+Merchant: Card swipe
+    Merchant->>+Processor: Card details 
+    Processor->>+Acquirer: Card details
+    Acquirer->>+Card Network: Card details
+    Card Network->>+Issuing bank: Auth request
+    Issuing bank->>Issuing bank: Validate card details
+    Issuing bank->>Issuing bank: Fund availability
+    Issuing bank->>Issuing bank: Assess risk & compliance
+    Issuing bank->>-Card Network: Auth response
+    Card Network->>-Acquirer: Auth response
+    Acquirer->>-Processor: Auth response
+    Processor->>-Merchant: Auth response
+    Merchant->>-Cardholder: Auth response
   ```
